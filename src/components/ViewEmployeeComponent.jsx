@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import EmployeeService from '../services/EmployeeService'
+import React, { Component } from 'react';
+import EmployeeService from '../services/EmployeeService';
 
 class ViewEmployeeComponent extends Component {
     constructor(props) {
@@ -7,11 +7,11 @@ class ViewEmployeeComponent extends Component {
 
         this.state = {
             id: this.props.match.params.id,
-            employee: {}
+            employee: []
         }
     }
-
-    componentDidMount(){
+    
+    componentDidMount() {
         EmployeeService.getEmployeeById(this.state.id).then( res => {
             this.setState({employee: res.data});
         })
@@ -20,7 +20,6 @@ class ViewEmployeeComponent extends Component {
     render() {
         return (
             <div>
-                <br></br>
                 <div className = "card col-md-6 offset-md-3">
                     <h3 className = "text-center"> View Employee Details</h3>
                     <div className = "card-body">
@@ -37,11 +36,10 @@ class ViewEmployeeComponent extends Component {
                             <div> { this.state.employee.emailId }</div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default ViewEmployeeComponent
+export default ViewEmployeeComponent;

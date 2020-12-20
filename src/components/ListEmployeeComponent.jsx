@@ -6,11 +6,19 @@ class ListEmployeeComponent extends Component {
         super(props)
 
         this.state = {
-                employees: []
+            employees: []
         }
         this.addEmployee = this.addEmployee.bind(this);
         this.editEmployee = this.editEmployee.bind(this);
         this.deleteEmployee = this.deleteEmployee.bind(this);
+    }
+
+    addEmployee(){
+        this.props.history.push(`/add-employee/_add`);
+    }
+
+    editEmployee(id){
+        this.props.history.push(`/add-employee/${id}`);
     }
 
     deleteEmployee(id){
@@ -18,21 +26,15 @@ class ListEmployeeComponent extends Component {
             this.setState({employees: this.state.employees.filter(employee => employee.id !== id)});
         });
     }
+
     viewEmployee(id){
         this.props.history.push(`/view-employee/${id}`);
-    }
-    editEmployee(id){
-        this.props.history.push(`/add-employee/${id}`);
     }
 
     componentDidMount(){
         EmployeeService.getEmployees().then((res) => {
             this.setState({ employees: res.data});
         });
-    }
-
-    addEmployee(){
-        this.props.history.push('/add-employee/_add');
     }
 
     render() {
