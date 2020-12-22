@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import './footer.css';
 
 class FooterComponent extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class FooterComponent extends Component {
     render() {
         return (
             <div>
-                <footer className = "footer">
+                <footer className="web2-footer">
                     <span className="text-muted">All Rights Reserved 2020 web2 team</span>
                 </footer>
             </div>
