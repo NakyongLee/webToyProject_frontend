@@ -6,7 +6,6 @@ class CreateDiaryComponent extends Component {
         super(props)
 
         this.state = {
-            //step2
             id: this.props.match.params.id,
             title: '',
             date: '',
@@ -24,10 +23,8 @@ class CreateDiaryComponent extends Component {
     
     }
 
-    //step3
     componentDidMount(){
 
-        //step4
         if(this.state.id === '_add'){
             return
         } else{
@@ -142,10 +139,25 @@ class CreateDiaryComponent extends Component {
                                         <input placeholder="Content" name="content" className="form-control"
                                             value={this.state.content} onChange={this.changeContentHandler}/>
                                     </div>
-                                    <div className = "form-group">
+                                    {/*<div className = "form-group">
                                         <lable> Emotion: </lable>
                                         <input placeholder="Emotion" name="emotion" className="form-control"
                                             value={this.state.emotion} onChange={this.changeEmotionHandler}/>
+                        </div> */}
+                                    <div className="form-group">
+                                        <lable> Emotion: </lable>
+                                        <select className="form-control" name="emotion" value={this.state.emotion}
+                                                onChange={this.changeEmotionHandler} >
+                                            <option value=""></option>
+                                            <option value="행복">행복</option>
+                                            <option value="보통">보통</option>
+                                            <option value="슬픔">슬픔</option>
+                                            <option value="화남">화남</option>
+                                            <option value="두려움">두려움</option>
+                                        </select>
+                                        <div className="invalid-feedback">
+                                            감정을 선택하세요
+                                        </div>
                                     </div>
                                     <div className = "form-group">
                                         <lable> Image: </lable>
