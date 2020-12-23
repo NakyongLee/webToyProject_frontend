@@ -154,9 +154,18 @@ class CreateDiaryComponent extends Component {
                                     </div>
                                     <div className = "form-group">
                                         <lable> Emotion: </lable>
-                                        <input placeholder="Emotion" name="emotion" className="form-control"
-                                            value={this.state.emotion} onChange={this.changeEmotionHandler}/>
-                                    </div>
+                                            <select className="form-control" name="emotion" value={this.state.emotion}
+                                                    onChange={this.changeEmotionHandler} >
+                                                <option value=""></option>
+                                                <option value="행복">🥰행복</option>
+                                                <option value="보통">🙂보통</option>
+                                                <option value="슬픔">😢슬픔</option>
+                                                <option value="화남">😡화남</option>
+                                                <option value="걱정">🥺걱정</option>
+                                            </select>
+                                            <div className="invalid-feedback">
+                                                감정을 선택하세요
+                                            </div></div>
                                     <div className = "form-group">
                                         <lable> Image: </lable>
                                         <input name="image" className="form-control" type = "file"

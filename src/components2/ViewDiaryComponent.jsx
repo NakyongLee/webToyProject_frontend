@@ -28,37 +28,29 @@ class ViewDiaryComponent extends Component {
 
     }
 
+    getEmotion() {
+        if(this.state.diary.emotion === '행복'){
+            return <div className="card-header">🥰</div>
+        }
+        else if(this.state.diary.emotion === '보통'){
+            return <div className="card-header">🙂</div>
+        }
+        else if(this.state.diary.emotion === '슬픔'){
+            return <div className="card-header">😢</div>
+        }
+        else if(this.state.diary.emotion === '화남'){
+            return <div className="card-header">😡</div>
+        }
+        else if(this.state.diary.emotion === '걱정'){
+            return <div className="card-header">🥺</div>
+        }
+    }
+
     render() {
         return (
             <div>
-                {/* <div className = "card col-md-6 offset-md-3">
-                    <h3 className = "text-center"> View Diary Details</h3>
-                    <div className = "card-body">
-                        <div className = "row">
-                            <label> Title: </label>
-                            <div> { this.state.diary.title }</div>
-                        </div>
-                        <div className = "row">
-                            <label> Date: </label>
-                            <div> { this.state.diary.date }</div>
-                        </div>
-                        <div className = "row">
-                            <label> Content: </label>
-                            <div> { this.state.diary.content }</div>
-                        </div>
-                        <div className = "row">
-                            <label> Emotion: </label>
-                            <div> { this.state.diary.emotion }</div>
-                        </div>
-                        <div className = "row">
-                            {
-                                this.getImage()
-                            }
-                        </div>
-                    </div>
-                </div> */}
                 <div className="card border-dark mb-3">
-                    <div className="card-header">{this.state.diary.emotion}</div>
+                    {this.getEmotion()}
                     <div className="card-body">
                         <h5 className="card-title">{ this.state.diary.title }</h5>
                         <p className="card-text">{this.state.diary.content}</p>

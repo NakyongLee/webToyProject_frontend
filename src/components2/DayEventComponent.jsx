@@ -8,7 +8,8 @@ class DayEventComponent extends Component{
     super(props)
 
     this.state = {
-      events: []
+      events: [],
+      emotion: ''
     }
   }
 
