@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import DiaryService from '../services/DiaryService';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class CreateDiaryComponent extends Component {
     constructor(props) {
@@ -34,7 +36,7 @@ class CreateDiaryComponent extends Component {
             DiaryService.getDiaryById(this.state.id).then((res) => {
                 let diary = res.data;
                 this.setState({title: diary.title,
-                    date: diary.date,
+                    date: new Date(diary.date),
                     content: diary.content,
                     emotion: diary.emotion,
                     image: diary.image,
@@ -45,7 +47,7 @@ class CreateDiaryComponent extends Component {
 
     saveDiary = (e) => {
         e.preventDefault();
-        let diary = {title: this.state.title, date: this.state.date, content: this.state.content, emotion: this.state.emotion};
+        let diary = {title: this.state.title, date: this.state.date.getFullYear()+'-'+(this.state.date.getMonth()+1)+'-'+this.state.date.getDate(), content: this.state.content, emotion: this.state.emotion};
         console.log('diary => ' + JSON.stringify(diary))
         
         const formData = new FormData();
@@ -87,7 +89,9 @@ class CreateDiaryComponent extends Component {
     }
 
     changeDateHandler= (event) => {
-        this.setState({date: event.target.value});
+        this.setState({date: event})
+        console.log('aa' + event.getFullYear()+'-'+(event.getMonth()+1)+'-'+event.getDate())
+        
     }
 
     changeContentHandler= (event) => {
@@ -117,6 +121,7 @@ class CreateDiaryComponent extends Component {
 
     }
     render() {
+        
         return (
             <div>
                 <div className = "container">
@@ -134,9 +139,14 @@ class CreateDiaryComponent extends Component {
                                     </div>
                                     <div className = "form-group">
                                         <lable> Date: </lable>
-                                        <input placeholder="Date" name="date" className="form-control"
-                                            value={this.state.date} onChange={this.changeDateHandler}/>
-                                    </div>
+                                        {/* <input placeholder="Date" name="date" className="form-control"
+                                            value={this.state.date} onChange={this.changeDateHandler}/> */}
+                                        <DatePicker
+                                            dateFormat="yyyy-MM-dd"
+                                            selected={this.state.date}
+                                            onChange={this.changeDateHandler}
+                                        />
+                                   </div>
                                     <div className = "form-group">
                                         <lable> Content: </lable>
                                         <input placeholder="Content" name="content" className="form-control"

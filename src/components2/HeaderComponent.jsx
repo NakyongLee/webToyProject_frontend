@@ -13,8 +13,15 @@ class HeaderComponent extends Component {
         return (
             <div>
                 <header>
-                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><a href="https://localhost:3000/diaries" className="navbar-brand">Emotional Diary App</a></div>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/diaries">Mood Diary App</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/calendar">calendar</a>
+                            </li>
+                        </ul>
                     </nav>
                 </header>
             </div>
