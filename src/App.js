@@ -1,7 +1,6 @@
 import './App.css';
-import {BrowserRouter as Router, Route, Switch }from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ListDiaryComponent2 from './components2/ListDiaryComponent2';
-import ListDiaryComponent from './components2/ListDiaryComponent';
 import HeaderComponent from './components2/HeaderComponent';
 import FooterComponent from './components2/FooterComponent';
 import CreateDiaryComponent from './components2/CreateDiaryComponent';
@@ -13,16 +12,14 @@ function App() {
     <div>
       <Router>
         <HeaderComponent />
-          <div className="container">
-            <Switch> 
-              <Route path = "/diaries" component = {ListDiaryComponent2}></Route>
-              <Route path = "/diaries2" component = {ListDiaryComponent}></Route>
-
-              <Route path = "/add-diary/:id" component = {CreateDiaryComponent}></Route>           
-              <Route path = "/view-diary/:id" component = {ViewDiaryComponent}></Route>
-              <Route path = "/calendar" component = {DayEventComponent}></Route>
-            </Switch>
-          </div>
+        <div className="container">
+          <Switch>
+            <Route path="/diaries" component={ListDiaryComponent2}></Route>
+            <Route path="/add-diary/:id" component={CreateDiaryComponent}></Route>
+            <Route path="/view-diary/:id" component={ViewDiaryComponent}></Route>
+            <Route path="/calendar" component={DayEventComponent}></Route>
+          </Switch>
+        </div>
         <FooterComponent />
       </Router>
     </div>

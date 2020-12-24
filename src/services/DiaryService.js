@@ -24,6 +24,10 @@ class DiaryService {
         return axios.delete(DIARY_API_BASE_URL + '/' + diaryId);
     }
 
+    deleteImage(diaryId){
+        return axios.delete(DIARY_API_BASE_URL + '/image/' + diaryId);
+    }
+
     uploadImage(data) {
         return axios.post(DIARY_API_BASE_URL + '/image', data);
     }

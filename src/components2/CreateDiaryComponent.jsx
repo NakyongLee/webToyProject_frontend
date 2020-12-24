@@ -15,31 +15,35 @@ class CreateDiaryComponent extends Component {
             content: '',
             emotion: '',
             image: undefined,
+            previewURL: 'http://localhost:8080/api/v1/diaries/image/' + this.props.match.params.id,
+            file: ''
         }
-        
+
         this.changeTitleHandler = this.changeTitleHandler.bind(this);
         this.changeDateHandler = this.changeDateHandler.bind(this);
         this.changeContentHandler = this.changeContentHandler.bind(this);
         this.changeEmotionHandler = this.changeEmotionHandler.bind(this);
         this.saveDiary = this.saveDiary.bind(this);
         this.changeImageHandler = this.changeImageHandler.bind(this);
-    
+        this.handleFileOnChange = this.handleFileOnChange.bind(this);
+        this.deleteImage = this.deleteImage.bind(this);
     }
 
     //step3
-    componentDidMount(){
+    componentDidMount() {
 
         //step4
-        if(this.state.id === '_add'){
+        if (this.state.id === '_add') {
             return
-        } else{
+        } else {
             DiaryService.getDiaryById(this.state.id).then((res) => {
                 let diary = res.data;
-                this.setState({title: diary.title,
+                this.setState({
+                    title: diary.title,
                     date: new Date(diary.date),
                     content: diary.content,
                     emotion: diary.emotion,
-                    image: diary.image,
+                    file: diary.img_name,
                 });
             });
         }
@@ -47,97 +51,127 @@ class CreateDiaryComponent extends Component {
 
     saveDiary = (e) => {
         e.preventDefault();
-        let diary = {title: this.state.title, date: this.state.date.getFullYear()+'-'+(this.state.date.getMonth()+1)+'-'+this.state.date.getDate(), content: this.state.content, emotion: this.state.emotion};
+        let diary = { title: this.state.title, date: this.state.date.getFullYear() + '-' + (this.state.date.getMonth() + 1) + '-' + this.state.date.getDate(), content: this.state.content, emotion: this.state.emotion };
         console.log('diary => ' + JSON.stringify(diary))
-        
+
         const formData = new FormData();
         formData.append('image', this.state.image);
         console.log('image => ' + this.state.image);
-        
+
         //step5
-        if(this.state.id === '_add'){
-            
+        if (this.state.id === '_add') {
+
             DiaryService.createDiary(diary).then(res => {
                 console.log('response' + res.data);
-                if(this.state.image !== undefined) {                   
+                if (this.state.image !== undefined) {
                     formData.append('id', res.data);
-                    DiaryService.uploadImage(formData).then(res =>{
+                    DiaryService.uploadImage(formData).then(res => {
                         console.log('이미지 ' + res.data);
-                        
+
                     });
                 }
-                this.props.history.push('/diaries');
+                this.props.history.push('/view-diary/' + res.data);
             });
-                        
-        } else{  
-            DiaryService.updateDiary(diary, this.state.id).then( res => {
-                if(this.state.image !== undefined) {                   
+
+        } else {
+            DiaryService.updateDiary(diary, this.state.id).then(res => {
+                if (this.state.image !== undefined) {
                     formData.append('id', this.state.id);
-                    DiaryService.uploadImage(formData).then(res =>{
+                    DiaryService.uploadImage(formData).then(res => {
                         console.log('이미지 ' + res.data);
-                        
+
                     });
                 }
-                this.props.history.push('/diaries');
-            }); 
+                else if(this.state.previewURL === ''){
+                    console.log('preview')
+                    DiaryService.deleteImage(this.state.id).then(res=>{
+                        ;
+                    })
+                }
+                this.props.history.push('/view-diary/' + this.state.id);
+            });
         }
-    
+
     }
 
-    changeTitleHandler= (event) => {
-        this.setState({title: event.target.value});
+    deleteImage = (event) => {
+        event.preventDefault(); 
+        this.setState({ file: '', previewURL: '', image:undefined})
+        console.log('f => '+this.state.file + 'p=> '+ this.state.previewURL +'iasdf=>' + this.state.image);
     }
 
-    changeDateHandler= (event) => {
-        this.setState({date: event})
-        console.log('aa' + event.getFullYear()+'-'+(event.getMonth()+1)+'-'+event.getDate())
-        
+    changeTitleHandler = (event) => {
+        this.setState({ title: event.target.value });
     }
 
-    changeContentHandler= (event) => {
-        this.setState({content: event.target.value});
+    changeDateHandler = (event) => {
+        this.setState({ date: event })
+        console.log('aa' + event.getFullYear() + '-' + (event.getMonth() + 1) + '-' + event.getDate())
+
     }
 
-    changeEmotionHandler= (event) => {
-        this.setState({emotion: event.target.value});
+    changeContentHandler = (event) => {
+        this.setState({ content: event.target.value });
+    }
+
+    changeEmotionHandler = (event) => {
+        this.setState({ emotion: event.target.value });
     }
 
     changeImageHandler = (event) => {
-        this.setState({image: event.target.files[0]});
+        this.setState({ image: event.target.files[0] });
     }
 
-    cancle(){
+    handleFileOnChange = (event) => {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        reader.onloadend = () => {
+            this.setState({
+                file: file,
+                previewURL: reader.result
+            })
+        }
+        reader.readAsDataURL(file);
+        this.setState({ image: event.target.files[0] });
+    }
+
+    cancle() {
         this.props.history.push('/diaries');
     }
 
     getTitle() {
-        if(this.state.id === '_add'){
-            return <h3 className = "text-center">Add Diary</h3>                        
+        if (this.state.id === '_add') {
+            return <h3 className="text-center">Add Diary</h3>
         }
-        else{
-            return <h3 className = "text-center">Update Diary</h3>
-                            
+        else {
+            return <h3 className="text-center">Update Diary</h3>
+
         }
 
     }
     render() {
-        
+        let profile_preview = null;
+        if (this.state.file !== '') {
+            profile_preview = <img className="profile_preview" src={this.state.previewURL} alt="img" width="100%" height="auto"></img>
+        }
+
         return (
             <div>
-                <div className = "container">
-                    <div className = "row">
-                        <div className = "card col-md-6 offset-md-3 offset-md-3">
+                <div className="container">
+                    <div className="row">
+                        <div className="card col-md-6 offset-md-3 offset-md-3">
                             {
                                 this.getTitle()
                             }
-                            <div className = "card-body">
+                            <div className="card-body">
                                 <form>
-                                    <div className = "form-group">
+                                    <div className="form-group">
                                         <lable> Title: </lable>
                                         <input placeholder="Title" name="title" className="form-control"
-                                            value={this.state.title} onChange={this.changeTitleHandler}/>
+                                            value={this.state.title} onChange={this.changeTitleHandler} />
                                     </div>
-                                    <div className = "form-group">
+                                    <div className="form-group">
                                         <lable> Date: </lable>
                                         {/* <input placeholder="Date" name="date" className="form-control"
                                             value={this.state.date} onChange={this.changeDateHandler}/> */}
@@ -146,33 +180,35 @@ class CreateDiaryComponent extends Component {
                                             selected={this.state.date}
                                             onChange={this.changeDateHandler}
                                         />
-                                   </div>
-                                    <div className = "form-group">
+                                    </div>
+                                    <div className="form-group">
                                         <lable> Content: </lable>
                                         <input placeholder="Content" name="content" className="form-control"
-                                            value={this.state.content} onChange={this.changeContentHandler}/>
+                                            value={this.state.content} onChange={this.changeContentHandler} />
                                     </div>
-                                    <div className = "form-group">
+                                    <div className="form-group">
                                         <lable> Emotion: </lable>
-                                            <select className="form-control" name="emotion" value={this.state.emotion}
-                                                    onChange={this.changeEmotionHandler} >
-                                                <option value=""></option>
-                                                <option value="행복">🥰행복</option>
-                                                <option value="보통">🙂보통</option>
-                                                <option value="슬픔">😢슬픔</option>
-                                                <option value="화남">😡화남</option>
-                                                <option value="걱정">🥺걱정</option>
-                                            </select>
-                                            <div className="invalid-feedback">
-                                                감정을 선택하세요
+                                        <select className="form-control" name="emotion" value={this.state.emotion}
+                                            onChange={this.changeEmotionHandler} >
+                                            <option value=""></option>
+                                            <option value="행복">🥰행복</option>
+                                            <option value="보통">🙂보통</option>
+                                            <option value="슬픔">😢슬픔</option>
+                                            <option value="화남">😡화남</option>
+                                            <option value="걱정">🥺걱정</option>
+                                        </select>
+                                        <div className="invalid-feedback">
+                                            감정을 선택하세요
                                             </div></div>
-                                    <div className = "form-group">
+                                    <div className="form-group">
                                         <lable> Image: </lable>
-                                        <input name="image" className="form-control" type = "file"
-                                             onChange={this.changeImageHandler}/>
+                                        <input name="image" className="form-control" type="file"
+                                            onChange={this.handleFileOnChange} />
+                                        {profile_preview}                                       
+                                        <button onClick={this.deleteImage} style={{ marginLeft: "10px" }}>Delete </button>
                                     </div>
                                     <button className="btn btn-success" onClick={this.saveDiary}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancle.bind(this)} style={{marginLeft: "10px"}}>Cancle</button>
+                                    <button className="btn btn-danger" onClick={this.cancle.bind(this)} style={{ marginLeft: "10px" }}>Cancle</button>
                                 </form>
                             </div>
                         </div>
