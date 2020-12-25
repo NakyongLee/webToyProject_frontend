@@ -16,7 +16,7 @@ class CreateDiaryComponent extends Component {
             emotion: '',
             image: undefined,
             previewURL: 'http://localhost:8080/api/v1/diaries/image/' + this.props.match.params.id,
-            file: ''
+            file: null
         }
 
         this.changeTitleHandler = this.changeTitleHandler.bind(this);
@@ -70,7 +70,7 @@ class CreateDiaryComponent extends Component {
 
                     });
                 }
-                this.props.history.push('/view-diary/' + res.data);
+                this.props.history.push('/Diaries');
             });
 
         } else {
@@ -82,22 +82,22 @@ class CreateDiaryComponent extends Component {
 
                     });
                 }
-                else if(this.state.previewURL === ''){
+                else if (this.state.previewURL === '') {
                     console.log('preview')
-                    DiaryService.deleteImage(this.state.id).then(res=>{
+                    DiaryService.deleteImage(this.state.id).then(res => {
                         ;
                     })
                 }
-                this.props.history.push('/view-diary/' + this.state.id);
+                this.props.history.push('/Diaries');
             });
         }
 
     }
 
     deleteImage = (event) => {
-        event.preventDefault(); 
-        this.setState({ file: '', previewURL: '', image:undefined})
-        console.log('f => '+this.state.file + 'p=> '+ this.state.previewURL +'iasdf=>' + this.state.image);
+        event.preventDefault();
+        this.setState({ file: null, previewURL: '', image: undefined })
+        console.log('f => ' + this.state.file + 'pasdf=> ' + this.state.previewURL + 'iasdf=>' + this.state.image);
     }
 
     changeTitleHandler = (event) => {
@@ -152,12 +152,13 @@ class CreateDiaryComponent extends Component {
     }
     render() {
         let profile_preview = null;
-        if (this.state.file !== '') {
-            profile_preview = <img className="profile_preview" src={this.state.previewURL} alt="img" width="100%" height="auto"></img>
+        if (this.state.file !== null) {
+            profile_preview = <div className="form-group"><img className="profile_preview" src={this.state.previewURL} alt="img" width="100%" height="auto"></img></div>
         }
 
         return (
             <div>
+                <br></br>
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
@@ -167,12 +168,12 @@ class CreateDiaryComponent extends Component {
                             <div className="card-body">
                                 <form>
                                     <div className="form-group">
-                                        <lable> Title: </lable>
+                                        <lable> Title </lable>
                                         <input placeholder="Title" name="title" className="form-control"
                                             value={this.state.title} onChange={this.changeTitleHandler} />
                                     </div>
                                     <div className="form-group">
-                                        <lable> Date: </lable>
+                                        <lable> Date </lable>
                                         {/* <input placeholder="Date" name="date" className="form-control"
                                             value={this.state.date} onChange={this.changeDateHandler}/> */}
                                         <DatePicker
@@ -183,8 +184,8 @@ class CreateDiaryComponent extends Component {
                                     </div>
                                     <div className="form-group">
                                         <lable> Content: </lable>
-                                        <input placeholder="Content" name="content" className="form-control"
-                                            value={this.state.content} onChange={this.changeContentHandler} />
+                                        <textarea placeholder="Content" name="content" className="form-control"
+                                            value={this.state.content} onChange={this.changeContentHandler}></textarea>
                                     </div>
                                     <div className="form-group">
                                         <lable> Emotion: </lable>
@@ -195,17 +196,26 @@ class CreateDiaryComponent extends Component {
                                             <option value="보통">🙂보통</option>
                                             <option value="슬픔">😢슬픔</option>
                                             <option value="화남">😡화남</option>
-                                            <option value="걱정">🥺걱정</option>
+                                            <option value="불안">🥺불안</option>
                                         </select>
                                         <div className="invalid-feedback">
                                             감정을 선택하세요
                                             </div></div>
-                                    <div className="form-group">
-                                        <lable> Image: </lable>
-                                        <input name="image" className="form-control" type="file"
-                                            onChange={this.handleFileOnChange} />
-                                        {profile_preview}                                       
-                                        <button onClick={this.deleteImage} style={{ marginLeft: "10px" }}>Delete </button>
+
+                                    <div className="form-group"><lable> Image: </lable></div>
+                                    <div className="form-row">
+
+                                        <div className="custom-file form-group col-md-9">
+
+                                            <input name="image" className="custom-file-input" type="file"
+                                                onChange={this.handleFileOnChange} />
+                                            <label className="custom-file-label">Choose file</label>
+                                        </div>
+                                        <div className="form-group col-md-2">
+                                            <button onClick={this.deleteImage} className="btn btn-danger" style={{ marginLeft: "10px" }}>Delete </button>
+                                        </div>
+                                        {profile_preview}
+
                                     </div>
                                     <button className="btn btn-success" onClick={this.saveDiary}>Save</button>
                                     <button className="btn btn-danger" onClick={this.cancle.bind(this)} style={{ marginLeft: "10px" }}>Cancle</button>

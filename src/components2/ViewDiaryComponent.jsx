@@ -25,7 +25,7 @@ class ViewDiaryComponent extends Component {
         DiaryService.getDiaryById(this.state.id).then(res => {
             this.setState({ diary: res.data });
         })
-        this.setState({loading: true})
+        this.setState({ loading: true })
     }
 
     editDiary(id) {
@@ -47,7 +47,7 @@ class ViewDiaryComponent extends Component {
             return
         }
         else {
-            return <img className="card-img-botton" src={'http://localhost:8080/api/v1/diaries/image/' + this.state.id} alt="img" width="100%" height = "auto" onLoad={this.handleOnLoad}/>
+            return <img className="card-img-botton" src={'http://localhost:8080/api/v1/diaries/image/' + this.state.id} alt="img" width="100%" height="auto" onLoad={this.handleOnLoad} />
 
         }
 
@@ -66,7 +66,7 @@ class ViewDiaryComponent extends Component {
         else if (this.state.diary.emotion === '화남') {
             return <div className="card-header">😡</div>
         }
-        else if (this.state.diary.emotion === '걱정') {
+        else if (this.state.diary.emotion === '불안') {
             return <div className="card-header">🥺</div>
         }
     }
@@ -77,26 +77,26 @@ class ViewDiaryComponent extends Component {
         //     profile_preview = <img className="profile_preview" src={this.state.previewURL} alt="img" width="100%" height="auto"></img>
         // }
         if (this.state.loading === true) {
-            img = <img className="card-img-botton" src={'http://localhost:8080/api/v1/diaries/image/' + this.state.id} alt="img" width="100%" height = "auto"/>
+            img = <img className="card-img-botton" src={'http://localhost:8080/api/v1/diaries/image/' + this.state.id} alt="img" width="100%" height="auto" />
 
         }
         return (
             <div>
                 <br></br>
                 <div class="col-md-8 offset-md-2 offset-md-2">
-                <div className="card border-dark mb-3">
-                    {this.getEmotion()}
-                    <div className="card-body">
-                        <h5 className="card-title">{this.state.diary.title}</h5>
-                        <p className="card-text">{this.state.diary.content}</p>
-                        <p className="card-text"><small className="text-muted">{this.state.diary.date}</small></p>
+                    <div className="card border-dark mb-3">
+                        {this.getEmotion()}
+                        <div className="card-body">
+                            <h5 className="card-title">{this.state.diary.title}</h5>
+                            <p className="card-text">{this.state.diary.content}</p>
+                            <p className="card-text"><small className="text-muted">{this.state.diary.date}</small></p>
+                        </div>
+                        {/* {this.getImage()} */}
+                        {this.getImage()}
                     </div>
-                    {/* {this.getImage()} */}
-                    {img}
-                </div>
-                <button onClick={() => this.editDiary(this.state.id)} className="btn btn-info">Update </button>
-                <button onClick={() => this.deleteDiary(this.state.id)} className="btn btn-danger" style={{ marginLeft: "10px" }}>Delete </button>
-                <button onClick={() => this.diaryList()} className="btn btn-info" style={{ marginLeft: "10px" }}>Back </button>
+                    <button onClick={() => this.editDiary(this.state.id)} className="btn btn-info">Update </button>
+                    <button onClick={() => this.deleteDiary(this.state.id)} className="btn btn-danger" style={{ marginLeft: "10px" }}>Delete </button>
+                    <button onClick={() => this.diaryList()} className="btn btn-info" style={{ marginLeft: "10px" }}>Back </button>
                 </div>
             </div>
         );

@@ -50,7 +50,7 @@ class ListDiaryComponent2 extends Component {
         else if (emotion === '화남') {
             return <div className="card-header">😡</div>
         }
-        else if (emotion === '걱정') {
+        else if (emotion === '불안') {
             return <div className="card-header">🥺</div>
         }
     }
@@ -64,28 +64,24 @@ class ListDiaryComponent2 extends Component {
                     <button className="btn btn-primary" onClick={this.addDiary}> Add Diary</button>
                 </div>
                 <br></br>
-                <div className="row">
+                <div className="card-columns">
                     {
                         this.state.diaries.map(
                             diary =>
-                                <div className="col-sm-4">
-                                    <div className="card border-dark mb-3" style={{ marginLeft: "10px" }}>
-                                        {/* <div className="card-header">{diary.emotion}</div> */}
-                                        {this.getEmotion(diary.emotion)}
-                                        <div className="card-body">
-                                            <h5 className="card-title">{diary.title}</h5>
-                                            <p className="card-text">{diary.content}</p>
-                                            <p className="card-text"><small className="text-muted">{diary.date}</small></p>
+                                <div className="card border-dark">
+                                    {this.getEmotion(diary.emotion)}
+                                    <div className="card-body">
+                                        <h5 className="card-title">{diary.title}</h5>
+                                        <p className="card-text">{diary.content}</p>
+                                        <p className="card-text"><small className="text-muted">{diary.date}</small></p>
 
-                                            <div className="btn-group" role="group">
-                                                {/* <button onClick={ () => this.editDiary(diary.id)} className="btn btn-info">Update </button>
+                                        <div className="btn-group" role="group">
+                                            {/* <button onClick={ () => this.editDiary(diary.id)} className="btn btn-info">Update </button>
                                         <button onClick={ () => this.deleteDiary(diary.id)} className="btn btn-danger">Delete </button> */}
-                                                <button onClick={() => this.viewDiary(diary.id)} className="btn btn-info">View </button>
-                                            </div>
+                                            <button onClick={() => this.viewDiary(diary.id)} className="btn btn-info">View </button>
                                         </div>
                                     </div>
                                 </div>
-
                         )
                     }
                 </div>

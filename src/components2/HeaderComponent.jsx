@@ -19,7 +19,7 @@ class HeaderComponent extends Component {
                                 <a class="nav-link" href="/diaries">Mood Diary App</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/calendar">calendar</a>
+                                <a class="nav-link" href="/calendar">Calendar</a>
                             </li>
                         </ul>
                     </nav>
