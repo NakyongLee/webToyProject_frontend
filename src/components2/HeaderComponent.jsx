@@ -5,21 +5,21 @@ class HeaderComponent extends Component {
         super(props)
 
         this.state = {
-                 
+
         }
     }
-    
+
     render() {
         return (
             <div>
                 <header>
-                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                         <ul class="navbar-nav">
                             <li class="nav-item active">
                                 <a class="nav-link" href="/diaries">Mood Diary App</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/calendar">calendar</a>
+                                <a class="nav-link" href="/calendar">Calendar</a>
                             </li>
                         </ul>
                     </nav>
